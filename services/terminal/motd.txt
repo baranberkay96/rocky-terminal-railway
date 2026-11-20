@@ -1,0 +1,18 @@
+
+  Rocky Linux 10 web terminal on Railway
+  --------------------------------------------------------------------------
+  Saved:     /home/rocky is a Railway volume. The rest of the system resets
+             on every redeploy.
+  Sessions:  tmux keeps this shell running when the tab closes. Reopen the URL
+             to resume. New window: Ctrl-b c. Next: Ctrl-b n. Detach: Ctrl-b d.
+             Separate session: add ?arg=work to the URL.
+  Packages:  sudo dnf install PACKAGE works now but resets on redeploy. To keep
+             packages, list them in the service variable ROCKY_EXTRA_PACKAGES:
+             Railway bakes them into the image. EPEL and CRB are enabled.
+  Tools:     git, curl, vim, nano, htop, gcc, g++, make, python3, pip, pipx,
+             node, npm (npm -g installs into ~/.npm-global).
+  Copying:   hold Shift while selecting text (tmux mouse mode is on).
+  Fair use:  Railway's Acceptable Use Policy applies. No crypto mining,
+             proxies, anonymizers or torrenting.
+  Banner:    touch ~/.hushlogin hides this message.
+

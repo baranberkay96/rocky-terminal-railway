@@ -1,0 +1,89 @@
+{
+  "name": "Rocky Linux 10 Web Terminal (Browser Shell)",
+  "description": "RHEL-compatible Rocky Linux 10 shell in your browser, password-protected.",
+  "category": "Other",
+  "tags": [
+    "rocky-linux",
+    "terminal",
+    "web-terminal",
+    "linux",
+    "shell",
+    "rhel",
+    "ttyd",
+    "tmux",
+    "rocky-10"
+  ],
+  "image": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/rocky-linux.svg",
+  "upstream": {
+    "repo": "tsl0922/ttyd",
+    "version": "1.7.7",
+    "base": "rockylinux/rockylinux:10.3.20261112.0@sha256:d24beedc58f79b9e0e9289fedaa4fcbcbe692b1438883a86f177fd7c51053ca8",
+    "checked": "2026-11-20"
+  },
+  "services": {
+    "Terminal": {
+      "icon": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/rocky-linux.svg",
+      "source": {
+        "repo": "baranberkay96/rocky-terminal-railway",
+        "rootDirectory": "/services/terminal"
+      },
+      "startCommand": null,
+      "preDeployCommand": null,
+      "healthcheckPath": "/healthz",
+      "healthcheckTimeout": 120,
+      "restartPolicyType": "ON_FAILURE",
+      "restartPolicyMaxRetries": 10,
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "publicDomain": true,
+      "targetPort": 8080,
+      "tcpProxy": null,
+      "volume": {
+        "mountPath": "/home"
+      },
+      "variables": {
+        "PASSWORD": {
+          "defaultValue": "${{secret(32)}}",
+          "description": "Browser login password, generated at deploy (copy it from this variable). 12-256 chars; a shorter or empty one locks the login.",
+          "required": false
+        },
+        "USERNAME": {
+          "defaultValue": "rocky",
+          "description": "Browser login name (letters, digits, . _ -). The Linux account is always 'rocky', with sudo.",
+          "required": false
+        },
+        "PORT": {
+          "defaultValue": "8080",
+          "description": "Port of the auth proxy (nginx). The public domain and healthcheck use it. ttyd stays on 127.0.0.1:7681.",
+          "required": false
+        },
+        "TERMINAL_TMUX": {
+          "defaultValue": "true",
+          "description": "true: each tab attaches to a tmux session that survives closed tabs and reconnects. false: a new bash per tab.",
+          "required": false
+        },
+        "TERMINAL_FONT_SIZE": {
+          "defaultValue": "15",
+          "description": "Font size of the browser terminal (8-40).",
+          "required": false
+        },
+        "ROCKY_EXTRA_PACKAGES": {
+          "defaultValue": "",
+          "description": "Optional. Extra Rocky/EPEL packages baked into the image at build, e.g. golang postgresql. Changing it rebuilds.",
+          "required": false
+        },
+        "TZ": {
+          "defaultValue": "UTC",
+          "description": "Time zone of the shell, e.g. Europe/Istanbul.",
+          "required": false
+        },
+        "RAILWAY_DEPLOYMENT_DRAINING_SECONDS": {
+          "defaultValue": "15",
+          "description": "Seconds between stop signal and kill on redeploy, so tmux shells exit cleanly and save history.",
+          "required": false
+        }
+      }
+    }
+  },
+  "buckets": []
+}
