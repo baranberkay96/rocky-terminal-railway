@@ -1,5 +1,7 @@
 # Deploy and Host Rocky Linux 10 Web Terminal with Railway
 
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/rocky-linux-10-web-terminal-browser-shel?referralCode=20H68q)
+
 A Rocky Linux 10 shell, binary-compatible with Red Hat Enterprise Linux 10, that opens in any browser. You work as the user `rocky` with sudo, inside tmux, so sessions and long-running jobs survive closed tabs. A generated password protects the login, and your home directory sits on a persistent volume. Git, Python, Node.js 24, GCC and everyday CLI tools come preinstalled.
 
 ## About Hosting Rocky Linux 10 Web Terminal
