@@ -36,7 +36,7 @@ A bare `rockylinux` container on Railway has no way in except Railway's own CLI.
 |---|---|---|
 | Terminal | Dockerfile based on `rockylinux/rockylinux:10.3.20261112.0` | nginx basic-auth proxy on port 8080 (public HTTPS domain, `/healthz`), ttyd on loopback, tmux sessions, user `rocky` with sudo, volume at `/home` |
 
-**Plan:** works on every plan, including Free (0.5 GB RAM per service). The terminal itself needs well under 0.1 GB of RAM (the same design measured 0.02-0.04 GB idle on Alpine, Arch and Fedora). The image is about 0.4 GB compressed. Large builds can need more than 0.5 GB; on Free the kernel then stops that process, not the terminal.
+**Plan:** works on every plan, including Free (0.5 GB RAM per service). Measured on Railway with a 0.5 GB memory limit: about 0.027 GB of RAM idle, and about 0.06 GB while a Python venv and an npm package were being installed. The image is about 0.4 GB compressed. Large builds can need more than 0.5 GB; on Free the kernel then stops that process, not the terminal.
 
 **First login**
 

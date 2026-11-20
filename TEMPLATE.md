@@ -42,9 +42,9 @@ Every build runs `dnf upgrade`, so Rocky 10 and EPEL updates are picked up.
 
 Railway prices: RAM $10/GB-month, vCPU $20/vCPU-month, volume $0.15/GB-month.
 
-| Service | Idle | Typical | Notes |
+| Service | Idle (measured) | Typical | Notes |
 |---|---|---|---|
-| Terminal | ~0.03 GB RAM (estimate from 127/128/130, not yet measured here) | 0.3 GB avg | Peaks come from what users run |
+| Terminal | 0.027 GB RAM, ~0 vCPU (measured, 0.5 GB limit) | 0.06 GB during pip/npm installs (measured), 0.3 GB avg | Peaks come from what users run |
 | Volume `/home` | 0.1 GB | 2-5 GB | Projects, venvs, node_modules |
 
 Estimated monthly cost: idle about $0.40, typical about $4. Minimum plan: Free. Image about 0.4 GB compressed (estimate: 304 RPMs, 235 MB of RPMs, about 0.95 GB installed, plus Node.js), below the 4 GB cap.
@@ -89,9 +89,14 @@ No required inputs.
 
 ## Verification checklist
 
-- [x] Pre-publish test deploy (2026-11-20): build + deploy SUCCESS first try, `/healthz` 200.
-- [ ] Hands-on checks not run yet (workspace billing pause): login 401/200, WebSocket + foreign Origin, `whoami`/`sudo`/node/python/gcc/`sudo ping`, venv + npm, persistence after redeploy, `PASSWORD=abc` lock, RAM under a 0.5 GB limit.
-- [ ] Publish + post-publish test.
+Done on the pre-publish test deploys (2026-11-20):
+
+- [x] Build + deploy SUCCESS first try (twice); `/healthz` 200.
+- [x] `/` 401 without/with a wrong password, 200 with `PASSWORD`; `/token` `{"token": ""}`; WebSocket 101, 403 with a foreign Origin, 401 with a wrong password.
+- [x] Shell: `whoami` = `rocky`, `sudo -n true`, Rocky Linux 10.3 (Red Quartz), node v24.22.3, npm 11.19.1, Python 3.12.16, GCC 14.4.1, git 2.52.0, tmux (3.3a, reports `next-3.4`), ttyd 1.7.7, ripgrep 15.2.0 (EPEL), `sudo ping`, git prompt, `TERM=tmux-256color`, home 0750, `PASSWORD` not in the environment.
+- [x] `python3 -m venv` + `pip install requests`, `npm install -g cowsay`.
+- [x] `PASSWORD=abc`: SUCCESS, lock warning, every password 401; restoring the password: file, venv and `~/.npm-global` survived both redeploys.
+- [x] 0.5 GB limit: `memory.max` 500 MB, 0.027 GB idle, 0.06 GB peak.
 
 ## Open questions
 
